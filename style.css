@@ -1,0 +1,45 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    background-color: red;
+    width: 425px;
+    padding: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+.input-buttons{
+    height: 100px;
+    width: 100px;
+}
+.edit-buttons{
+    height: 100px;
+    width: 200px;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.display{
+    width: 390px;
+    padding: 10px 5px;
+    background-color: cyan;
+    flex: 1 1 0;
+
+
+}
+.display, 
+.edit,
+.inputs{
+    margin: 5px 10px;
+    border-radius: 10px;
+}
+#output{
+    text-align: end;
+}
+button{
+    border-radius: 10px;
+}
