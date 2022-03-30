@@ -9,11 +9,12 @@
     justify-content: center;
     border-radius: 20px;
 }
-.input-buttons{
+button{
     height: 100px;
     width: 100px;
 }
-.edit-buttons{
+#clear,
+#delete{
     height: 100px;
     width: 200px;
 }
