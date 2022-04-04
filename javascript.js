@@ -152,6 +152,7 @@ button.forEach((button) => {
             justCleared = true;
             currentOperator = '';
             currentProcedure = 'present';
+            beginAtSecond = 0;
             
         }
         else{
