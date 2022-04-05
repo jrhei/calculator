@@ -1,6 +1,6 @@
 let addState = subtractState = multiplyState = divideState = false;
-let addPrecedence = subPrecedence = mulPrecedence = divPrecedence = true;
-let twoNum;
+let addPrecedence = subPrecedence = mulPrecedence = divPrecedence = true;//checks if repeating or should be the first operation executed
+let addPrevious = subPrevious = multPrevious = divPrevious = false;
 let firstIteration = 0;
 const output = document.createElement('div');
 const previousOutput = document.createElement('div');
@@ -59,7 +59,14 @@ button.forEach((button) => {
             addState = true;
             operateState = true;
             beginAtSecond++;
-
+            if (addPrecedence === false || addPrevious === true){
+                addPrecedence = true;
+            }
+            else{
+                subPrecedence = mulPrecedence = divPrecedence = true
+                addPrecedence = false;
+                addPrevious = true;
+            }
 
             
         }
@@ -90,6 +97,15 @@ button.forEach((button) => {
             subtractState = true;
             operateState = true;
             beginAtSecond++;
+            if (subPrecedence === false || subPrevious === true){
+                subPrecedence = true;
+            }
+            else{
+                addPrecedence = mulPrecedence = divPrecedence = true
+                subPrecedence = false;
+                subPrevious = true;
+            }
+
 
             
 
@@ -119,6 +135,14 @@ button.forEach((button) => {
             operateState = true;
             justCleared = false;
             beginAtSecond++;
+            if (mulPrecedence === false ||  mulPrevious === true){
+                mulPrecedence = true;
+            }
+            else{
+                subPrecedence = addPrecedence = divPrecedence = true
+                mulPrecedence = false;
+                mulPrevious = true;
+            }
 
 
             
@@ -149,6 +173,14 @@ button.forEach((button) => {
             operateState = true;
             beginAtSecond++;
 
+            if (divPrecedence === false || divPrevious === true){
+                divPrecedence = true;
+            }
+            else{
+                subPrecedence = mulPrecedence = addPrecedence = true
+                divPrecedence = false;
+                divPrevious = true;
+            }
 
 
             
@@ -186,24 +218,25 @@ button.forEach((button) => {
         else{
             if (operateState === true && beginAtSecond >= 2 && justCleared == false)
                 {
-                    if (addState === true)
+                    if (addState === true && addPrecedence !== false)
                     {
                         firstNumber = operate(add, firstNumber, secondNumber);
                         currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
                         addState = false;
                         
                     }
-                    else if (multiplyState === true ){
-                        firstNumber = operate(multiply, firstNumber, secondNumber);
-                        currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
-                        multiplyState = false;
-                    }
-                    else if (subtractState === true){
+                    else if (subtractState === true && subPrecedence !== false){
                         firstNumber = operate(subtract, firstNumber, secondNumber);
                         currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
                         subtractState = false;
                     }
-                    else if (divideState === true ){
+                    else if (multiplyState === true && mulPrecedence !== false){
+                        firstNumber = operate(multiply, firstNumber, secondNumber);
+                        currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
+                        multiplyState = false;
+                    }
+                    
+                    else if (divideState === true && divPrecedence !== false){
                         firstNumber = operate(divide, firstNumber, secondNumber);
                         currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
                         divideState = false;
