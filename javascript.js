@@ -1,4 +1,7 @@
 let addState = subtractState = multiplyState = divideState = false;
+let addPrecedence = subPrecedence = mulPrecedence = divPrecedence = true;
+let twoNum;
+let firstIteration = 0;
 const output = document.createElement('div');
 const previousOutput = document.createElement('div');
 previousOutput.classList.add('previousOutput');
@@ -43,8 +46,9 @@ button.forEach((button) => {
             appending(btn);
         }
         else if (input === '.'){
-            output.textContent += '.';
-            display.appendChild(output);
+            btn = '.';
+            saveNumbers(btn);
+            appending(btn);
         }
         else if (input === '+'){
             clear(operateState);
@@ -55,6 +59,8 @@ button.forEach((button) => {
             addState = true;
             operateState = true;
             beginAtSecond++;
+
+
             
         }
         else if (input === '1'){
@@ -76,8 +82,17 @@ button.forEach((button) => {
             appending(btn);
         }
         else if (input === '-'){
-            output.textContent += '-';
-            display.appendChild(output);
+            clear(operateState);
+            currentOperator = '-';
+            firstNumberArr = [];
+            secondNumberArr = [];
+            currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
+            subtractState = true;
+            operateState = true;
+            beginAtSecond++;
+
+            
+
         }
         else if (input === '4'){
             btn = '4';
@@ -104,6 +119,10 @@ button.forEach((button) => {
             operateState = true;
             justCleared = false;
             beginAtSecond++;
+
+
+            
+            
         }
         else if (input === '7'){
             btn = '7';
@@ -121,8 +140,18 @@ button.forEach((button) => {
             appending(btn);
         }
         else if (input === '/'){
-            output.textContent += '/';
-            display.appendChild(output);
+            clear(operateState);
+            currentOperator = '/';
+            firstNumberArr = [];
+            secondNumberArr = [];
+            currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
+            divideState = true;
+            operateState = true;
+            beginAtSecond++;
+
+
+
+            
         }
         else if (input === 'clear'){
             clearState = true;
@@ -132,12 +161,11 @@ button.forEach((button) => {
             console.log(output.textContent)
         }
         else if (input === '='){
-            firstNumberArr = [];
-            secondNumberArr = [];
-            currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
-            multiplyState = true;
+            //currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
             operateState = true;
             justCleared = false;
+            beginAtSecond++
+            
         }
         if (clearState === true){
 
@@ -156,8 +184,6 @@ button.forEach((button) => {
             
         }
         else{
-
-        
             if (operateState === true && beginAtSecond >= 2 && justCleared == false)
                 {
                     if (addState === true)
@@ -167,10 +193,20 @@ button.forEach((button) => {
                         addState = false;
                         
                     }
-                    else if (multiplyState === true){
+                    else if (multiplyState === true ){
                         firstNumber = operate(multiply, firstNumber, secondNumber);
                         currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
                         multiplyState = false;
+                    }
+                    else if (subtractState === true){
+                        firstNumber = operate(subtract, firstNumber, secondNumber);
+                        currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
+                        subtractState = false;
+                    }
+                    else if (divideState === true ){
+                        firstNumber = operate(divide, firstNumber, secondNumber);
+                        currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
+                        divideState = false;
                     }
                     
                 }
@@ -178,6 +214,8 @@ button.forEach((button) => {
             }
     })
 })
+
+
 function appending(btn){
     if (operateState){
         output.textContent = '';
