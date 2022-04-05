@@ -1,6 +1,5 @@
 let addState = subtractState = multiplyState = divideState = false;
 let addPrecedence = subPrecedence = mulPrecedence = divPrecedence = true;//checks if repeating or should be the first operation executed
-let addPrevious = subPrevious = multPrevious = divPrevious = false;
 let firstIteration = 0;
 const output = document.createElement('div');
 const previousOutput = document.createElement('div');
@@ -59,13 +58,12 @@ button.forEach((button) => {
             addState = true;
             operateState = true;
             beginAtSecond++;
-            if (addPrecedence === false || addPrevious === true){
+            if (addPrecedence === false){
                 addPrecedence = true;
             }
             else{
                 subPrecedence = mulPrecedence = divPrecedence = true
                 addPrecedence = false;
-                addPrevious = true;
             }
 
             
@@ -97,13 +95,12 @@ button.forEach((button) => {
             subtractState = true;
             operateState = true;
             beginAtSecond++;
-            if (subPrecedence === false || subPrevious === true){
+            if (subPrecedence === false){
                 subPrecedence = true;
             }
             else{
                 addPrecedence = mulPrecedence = divPrecedence = true
                 subPrecedence = false;
-                subPrevious = true;
             }
 
 
@@ -135,13 +132,12 @@ button.forEach((button) => {
             operateState = true;
             justCleared = false;
             beginAtSecond++;
-            if (mulPrecedence === false ||  mulPrevious === true){
+            if (mulPrecedence === false){
                 mulPrecedence = true;
             }
             else{
                 subPrecedence = addPrecedence = divPrecedence = true
                 mulPrecedence = false;
-                mulPrevious = true;
             }
 
 
@@ -173,13 +169,12 @@ button.forEach((button) => {
             operateState = true;
             beginAtSecond++;
 
-            if (divPrecedence === false || divPrevious === true){
+            if (divPrecedence === false){
                 divPrecedence = true;
             }
             else{
                 subPrecedence = mulPrecedence = addPrecedence = true
                 divPrecedence = false;
-                divPrevious = true;
             }
 
 
