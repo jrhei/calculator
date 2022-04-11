@@ -1,11 +1,3 @@
-let addState = subtractState = multiplyState = divideState = false;
-let addPrecedence = subPrecedence = mulPrecedence = divPrecedence = true;//checks if repeating or should be the first operation executed
-let firstIteration = 0;
-const output = document.createElement('div');
-const previousOutput = document.createElement('div');
-previousOutput.classList.add('previousOutput');
-output.classList.add('output');
-const display = document.querySelector('.display')
 function add(a, b){
     return a + b;
 }
@@ -16,286 +8,252 @@ function multiply(a, b){
     return a * b;
 }
 function divide(a, b){
-    return a/b;
+    if (b === 0){
+        return 'ERROR'
+    }
+    else{
+        return a/b;
+    }
+    
 }
 
 function operate(operator, a ,b){
     return operator(a, b);  
 }
 
-let currentOperator;
-let operateState = false;
 let btn;
-let firstNumberArr = [];
-let secondNumberArr = [];
-let currentProcedure = 'present';
-let firstNumber;
-let secondNumber;
-let beginAtSecond = 0;
-let clearState = false;
-let justCleared = false;
+let arrayNum = [];
+let operateState = false;
+let operator;
+let finalOutcome;
+let firstNum;
+let secondNum;
+let num;
+let firstOperator;
+let operationCount = 0;
 const button = document.querySelectorAll('button');
 button.forEach((button) => {
     button.addEventListener('click', () => { //when button is clicked appends the button text to the display
         let input = button.id;
         
         if (input === '0'){
-            btn = '0';
-            saveNumbers(btn);
-            appending(btn);
+            btn = 0;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '.'){
             btn = '.';
-            saveNumbers(btn);
-            appending(btn);
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '+'){
-            clear(operateState);
-            currentOperator = '+';
-            firstNumberArr = [];
-            secondNumberArr = [];
-            currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
-            addState = true;
-            operateState = true;
-            beginAtSecond++;
-            if (addPrecedence === false){
-                addPrecedence = true;
+            arrayNum = [];
+            operateState = true;  
+            operationCount++;
+            
+            if (operationCount === 1){
+                operator = add;
             }
-            else{
-                subPrecedence = mulPrecedence = divPrecedence = true
-                addPrecedence = false;
+            else if (operationCount >= 2){
+                
+                finalOutcome = operate( operator, firstNum, secondNum);
+                appendOutput(finalOutcome);
+                operator = add;
+                operateState = true;
+                
             }
 
-            
         }
         else if (input === '1'){
-
-            btn = '1';
-            saveNumbers(btn);
-            appending(btn);
-            
-            
+            btn = 1;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '2'){
-            btn = '2';
-            saveNumbers(btn);
-            appending(btn);
+            btn = 2;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '3'){
-            btn = '3';
-            saveNumbers(btn);
-            appending(btn);
-        }
-        else if (input === '-'){
-            clear(operateState);
-            currentOperator = '-';
-            firstNumberArr = [];
-            secondNumberArr = [];
-            currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
-            subtractState = true;
-            operateState = true;
-            beginAtSecond++;
-            if (subPrecedence === false){
-                subPrecedence = true;
-            }
-            else{
-                addPrecedence = mulPrecedence = divPrecedence = true
-                subPrecedence = false;
-            }
-
-
+            btn = 3;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
             
+            appendNumbers(btn);
+            saveNumbers();
+        }
+        else if (input === '-'){ 
+            arrayNum = [];
+            operateState = true;
+            
+            operationCount++;
+            if (operationCount === 1){
+                operator = subtract;  
+            }
+            else if (operationCount >= 2){
+                  
+                finalOutcome = operate( operator, firstNum, secondNum);
+                appendOutput(finalOutcome);
+                operateState = true;
+                operator = subtract;  
+            }
 
         }
         else if (input === '4'){
-            btn = '4';
-            saveNumbers(btn);
-            appending(btn);
+            btn = 4;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '5'){
-            btn = '5';
-            saveNumbers(btn);
-            appending(btn);
+            btn = 5;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '6'){
-            btn = '6';
-            saveNumbers(btn);
-            appending(btn);
+            btn = 6;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '*'){
-            clear(operateState);
-            currentOperator = '*';
-            firstNumberArr = [];
-            secondNumberArr = [];
-            currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
-            multiplyState = true;
+            arrayNum = [];
             operateState = true;
-            justCleared = false;
-            beginAtSecond++;
-            if (mulPrecedence === false){
-                mulPrecedence = true;
+            operationCount++;
+            if (operationCount === 1){
+                operator = multiply;  
             }
-            else{
-                subPrecedence = addPrecedence = divPrecedence = true
-                mulPrecedence = false;
+            else if (operationCount >=2){
+                finalOutcome = operate( operator, firstNum, secondNum);
+                appendOutput(finalOutcome);
+                operateState = true;
+                operator = multiply; 
             }
-
-
-            
             
         }
         else if (input === '7'){
-            btn = '7';
-            saveNumbers(btn);
-            appending(btn);
+            btn = 7;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '8'){
-            btn = '8';
-            saveNumbers(btn);
-            appending(btn);
+            btn = 8;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '9'){
-            btn = '9';
-            saveNumbers(btn);
-            appending(btn);
+            btn = 9;
+            arrayNum.push(btn);
+            num = arrayNum.join('');
+            
+            appendNumbers(btn);
+            saveNumbers();
         }
         else if (input === '/'){
-            clear(operateState);
-            currentOperator = '/';
-            firstNumberArr = [];
-            secondNumberArr = [];
-            currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
-            divideState = true;
+            arrayNum = [];
             operateState = true;
-            beginAtSecond++;
+            
+            operationCount++;
 
-            if (divPrecedence === false){
-                divPrecedence = true;
+            if (operationCount === 1){
+                operator = divide;  
             }
-            else{
-                subPrecedence = mulPrecedence = addPrecedence = true
-                divPrecedence = false;
+            else if (operationCount >=2){
+                finalOutcome = operate( operator, firstNum, secondNum);
+                appendOutput(finalOutcome);
+                operateState = true;
+                operator = divide; 
+                
             }
-
-
             
         }
         else if (input === 'clear'){
-            clearState = true;
-
+            clear();
         }
         else if (input === 'delete'){
-            console.log(output.textContent)
+            console.log(input)
         }
         else if (input === '='){
-            //currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);      
-            operateState = true;
-            justCleared = false;
-            beginAtSecond++
-            
+            finalOutcome = operate( operator, firstNum, secondNum);
+            appendOutput(finalOutcome);
         }
-        if (clearState === true){
 
-            previousOutput.textContent = '';
-            output.textContent = '';
-            display.insertBefore(previousOutput, output);
-            display.appendChild(output);
-            firstNumber = Number();
-            secondNumber = Number();
-            clearState = false;
-            operateState = false;
-            justCleared = true;
-            currentOperator = '';
-            currentProcedure = 'present';
-            beginAtSecond = 0;
-            
-        }
-        else{
-            if (operateState === true && beginAtSecond >= 2 && justCleared == false)
-                {
-                    if (addState === true && addPrecedence !== false)
-                    {
-                        firstNumber = operate(add, firstNumber, secondNumber);
-                        currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
-                        addState = false;
-                        
-                    }
-                    else if (subtractState === true && subPrecedence !== false){
-                        firstNumber = operate(subtract, firstNumber, secondNumber);
-                        currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
-                        subtractState = false;
-                    }
-                    else if (multiplyState === true && mulPrecedence !== false){
-                        firstNumber = operate(multiply, firstNumber, secondNumber);
-                        currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
-                        multiplyState = false;
-                    }
-                    
-                    else if (divideState === true && divPrecedence !== false){
-                        firstNumber = operate(divide, firstNumber, secondNumber);
-                        currentProcedure = appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator);
-                        divideState = false;
-                    }
-                    
-                }
-
-            }
     })
 })
+const output = document.createElement('div');
+output.classList.add('output');
+const display = document.querySelector('.display')
 
-
-function appending(btn){
+function appendNumbers(btn){
     if (operateState){
         output.textContent = '';
         display.appendChild(output);
         operateState = false;
         output.textContent += btn;
         display.appendChild(output);
+
+        
     }
     else{
         output.textContent += btn;
         display.appendChild(output);
     }
-}
-function clear(operateState){
-    if (operateState === true){
-        output.textContent = '';
-        display.appendChild(output);
-        operateState = false;   
+    if (finalOutcome === 'ERROR'){
+        clear();
+        finalOutcome = undefined;
     }
 }
-function saveNumbers(btn){
-    if (currentProcedure === 'present'){
-        firstNumberArr.push(btn);
 
-        firstNumber = Number(firstNumberArr.join(''));
-        
+function saveNumbers(){
+    if (operationCount >= 2){
+        firstNum = finalOutcome;
+        secondNum = Number(output.textContent)
     }
-    else if (currentProcedure === 'past'){
-        secondNumberArr.push(btn);
-
-        secondNumber = Number(secondNumberArr.join(''));
-        justCleared = false;
-        
+    else if (operationCount === 1){
+        secondNum = Number(output.textContent);
+    }
+    else if (operationCount === 0){
+        firstNum = Number(output.textContent);
     }
 }
-function appendBefore(currentProcedure, firstNumber, secondNumber, currentOperator){
-    if (currentProcedure === 'present' && clearState === false){
-        output.textContent = '';
-        previousOutput.textContent = firstNumber + ' ' + currentOperator;
-        output.textContent = firstNumber;
-        display.insertBefore(previousOutput, output);
-        display.appendChild(output);
-        //currentProcedure = 'past';
-        return 'past'
-    }
-    else if (currentProcedure === 'past' && clearState === false){
-        output.textContent = '';
-        previousOutput.textContent = secondNumber + ' ' + currentOperator;
-        output.textContent = secondNumber;
-        display.insertBefore(previousOutput, output);
-        display.appendChild(output);
-        //currentProcedure = 'present';
-        return 'present';
-    }
+
+function appendOutput(finalOutcome){
+    output.textContent = '';
+    display.appendChild(output);
+    operateState = false;
+    output.textContent += finalOutcome;
+    display.appendChild(output);
+}
+
+function clear(){
+    output.textContent = '';
+    display.appendChild(output);
+    operateState = false;
+    firstNum = undefined;
+    secondNum = undefined;
+    operationCount = 0;
 }
