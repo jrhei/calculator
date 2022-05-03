@@ -207,7 +207,7 @@ button.forEach((button) => {
 const output = document.createElement('div');
 output.classList.add('output');
 const display = document.querySelector('.display')
-
+//test
 function appendNumbers(btn){
     if (operateState){
         output.textContent = '';
